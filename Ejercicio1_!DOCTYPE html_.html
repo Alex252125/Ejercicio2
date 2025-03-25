@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Tablas de Multiplicar</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff6347;
+            font-size: 2.5em;
+        }
+
+        .tabla-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .tabla {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tabla div {
+            margin: 10px;
+            background-color: #add8e6;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100px;
+            font-size: 1.5em;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .tabla div:hover {
+            background-color: #ffeb3b;
+        }
+
+        .input-container {
+            margin-top: 20px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 1.2em;
+            width: 60px;
+            text-align: center;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .btn-check {
+            background-color: #32cd32;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-check:hover {
+            background-color: #28a745;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+
+        .correcto {
+            color: #28a745;
+        }
+
+        .incorrecto {
+            color: #ff6347;
+        }
+
+        .animal {
+            font-size: 3em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Practica las Tablas de Multiplicar!</h1>
+    <div class="tabla-container">
+        <p>Selecciona un número y responde correctamente.</p>
+        <div class="tabla">
+            <!-- Aquí se generarán las opciones de la tabla de multiplicar -->
+        </div>
+
+        <div class="input-container">
+            <input type="number" id="respuesta" placeholder="Tu respuesta" />
+            <button class="btn-check" onclick="verificarRespuesta()">Verificar</button>
+        </div>
+
+        <div class="result"></div>
+        <div class="animal"></div>
+    </div>
+
+    <script>
+        // Variables globales
+        let numeroSeleccionado;
+        const tablaDiv = document.querySelector('.tabla');
+        const resultDiv = document.querySelector('.result');
+        const animalDiv = document.querySelector('.animal');
+
+        // Función para generar la tabla de multiplicar
+        function generarTabla() {
+            tablaDiv.innerHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                const div = document.createElement('div');
+                div.textContent = `${i} x ${numeroSeleccionado} = `;
+                div.onclick = () => seleccionarEjercicio(i);
+                tablaDiv.appendChild(div);
+            }
+        }
+
+        // Función cuando un número es seleccionado
+        function seleccionarEjercicio(i) {
+            const ejercicio = `${i} x ${numeroSeleccionado}`;
+            const respuestaCorrecta = i * numeroSeleccionado;
+            const userRespuesta = prompt(`¿Cuánto es ${ejercicio}?`);
+            if (parseInt(userRespuesta) === respuestaCorrecta) {
+                mostrarResultado(true);
+            } else {
+                mostrarResultado(false);
+            }
+        }
+
+        // Función para mostrar si la respuesta es correcta o incorrecta
+        function mostrarResultado(isCorrect) {
+            if (isCorrect) {
+                resultDiv.textContent = '¡Correcto! 🎉';
+                resultDiv.classList.add('correcto');
+                resultDiv.classList.remove('incorrecto');
+                mostrarAnimal('🐱');
+            } else {
+                resultDiv.textContent = '¡Incorrecto! 😔';
+                resultDiv.classList.add('incorrecto');
+                resultDiv.classList.remove('correcto');
+                mostrarAnimal('🦊');
+            }
+        }
+
+        // Función para mostrar un animal según la respuesta
+        function mostrarAnimal(animal) {
+            animalDiv.textContent = animal;
+        }
+
+        // Función para verificar respuesta al hacer clic en "Verificar"
+        function verificarRespuesta() {
+            const respuesta = document.getElementById('respuesta').value;
+            if (respuesta === '') {
+                alert('¡Por favor ingresa una respuesta!');
+                return;
+            }
+
+            if (parseInt(respuesta) === numeroSeleccionado) {
+                mostrarResultado(true);
+            } else {
+                mostrarResultado(false);
+            }
+        }
+
+        // Iniciar la app y generar las tablas
+        function iniciar() {
+            numeroSeleccionado = 2; // Puede ser modificado para elegir otras tablas
+            generarTabla();
+        }
+
+        // Llamar a la función para iniciar
+        iniciar();
+    </script>
+</body>
+</html>
